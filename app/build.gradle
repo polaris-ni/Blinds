@@ -1,11 +1,4 @@
 plugins {
-//    id "com.android.application"
-//    id 'org.jetbrains.kotlin.android'
-//    id 'kotlin-parcelize'
-//    //id 'kotlin-kapt'
-//    id 'com.google.devtools.ksp'
-//    id "com.google.gms.google-services"
-
     alias libs.plugins.android.application
     alias libs.plugins.kotlin.android
     alias libs.plugins.kotlin.parcelize
@@ -13,13 +6,14 @@ plugins {
     alias libs.plugins.ksp
     alias libs.plugins.google.services
 }
+
 apply from: 'download.gradle'
 
 static def releaseTime() {
     return new Date().format("yy.MMddHH", TimeZone.getTimeZone("GMT+8"))
 }
 
-def name = "legado"
+def name = "blinds"
 def version = "3." + releaseTime()
 def gitCommits = Integer.parseInt('git rev-list HEAD --count'.execute().text.trim())
 
@@ -48,7 +42,7 @@ android {
     }
     defaultConfig {
         applicationId "io.legado.app"
-        minSdk 21
+        minSdk = min_sdk_version
         targetSdk 35
         versionCode 10000 + gitCommits
         versionName version
@@ -119,12 +113,9 @@ android {
         arg("room.expandProjection", "true")
         arg("room.generateKotlin", "false")
         //arg("room.schemaLocation", "$projectDir/schemas")
-
     }
 
     compileOptions {
-        // Flag to enable support for the new language APIs
-        coreLibraryDesugaringEnabled true
         // Sets Java compatibility
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
@@ -148,9 +139,6 @@ android {
 }
 
 dependencies {
-    //compileOnly "com.android.tools.build:gradle:$agp_version"
-    //noinspection GradleDependency,GradlePackageUpdate
-    //coreLibraryDesugaring('com.android.tools:desugar_jdk_libs_nio:2.0.4')
     coreLibraryDesugaring(libs.desugar)
     testImplementation(libs.junit)
     androidTestImplementation(libs.bundles.androidTest)
@@ -160,12 +148,8 @@ dependencies {
     //Kotlin反射
     //noinspection GradleDependency,DifferentStdlibGradleVersion
     implementation(libs.kotlin.reflect)
-
-
     //协程
-    //def coroutines_version = '1.7.3'
     implementation(libs.bundles.coroutines)
-
 
     //图像处理库Toolkit
     implementation(libs.renderscript.intrinsics.replacement.toolkit)
@@ -197,8 +181,6 @@ dependencies {
     implementation(libs.media3.exoplayer)
     // For loading data using the OkHttp network stack
     implementation(libs.media3.datasource.okhttp)
-    // For exposing and controlling media sessions
-    //implementation "androidx.media3:media3-session:$media3_version"
 
     //Splitties
     implementation(libs.splitties.appctx)
@@ -208,7 +190,6 @@ dependencies {
     //room sql语句不高亮解决方法https://issuetracker.google.com/issues/234612964#comment6
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
-    //kapt("androidx.room:room-compiler:$room_version")
     ksp(libs.room.compiler)
     androidTestImplementation(libs.room.testing)
 
@@ -221,8 +202,6 @@ dependencies {
     implementation(libs.jsoupxpath)
     implementation(project(path: ':modules:book'))
     implementation implementation(project(path: ':modules:rhino'))
-
-    //JS rhino
 
     //网络
     implementation(libs.okhttp)
@@ -272,10 +251,4 @@ dependencies {
     implementation platform(libs.firebase.bom)
     implementation libs.firebase.analytics
     implementation libs.firebase.perf
-
-    //LeakCanary, 内存泄露检测
-    //debugImplementation('com.squareup.leakcanary:leakcanary-android:2.7')
-
-    //com.github.AmrDeveloper:CodeView代码编辑已集成到应用内
-    //epubLib集成到应用内
 }

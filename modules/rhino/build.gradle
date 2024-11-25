@@ -1,6 +1,4 @@
 plugins {
-    //d 'com.android.library'
-    //id 'org.jetbrains.kotlin.android'
     alias libs.plugins.android.library
     alias libs.plugins.kotlin.android
 }
@@ -14,9 +12,8 @@ android {
         }
     }
     defaultConfig {
-        minSdk 21
+        minSdk = min_sdk_version
         targetSdk 35
-
         consumerProguardFiles "consumer-rules.pro"
     }
 
@@ -35,11 +32,6 @@ android {
 }
 
 dependencies {
-//    api(fileTree(dir: 'lib', include: ['rhino-1.7.14.jar']))
     api libs.mozilla.rhino
-
     implementation(libs.kotlinx.coroutines.core)
-
-//    def coroutines_version = '1.7.3'
-//    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version")
 }

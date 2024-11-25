@@ -914,7 +914,7 @@ class PhotoView @JvmOverloads constructor(
         var viewParent: ViewParent = target.parent
         while (viewParent is View) {
             val view: View = viewParent
-            if (view.id == androidx.constraintlayout.widget.R.id.content) return
+            if (view.id == androidx.constraintlayout.widget.R.id.constraint) return
             position[0] -= view.scrollX
             position[1] -= view.scrollY
             position[0] += view.left
